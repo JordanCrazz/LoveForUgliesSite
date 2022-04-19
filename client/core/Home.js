@@ -41,6 +41,9 @@ import {listComment} from './../comment/api-comment.js'
 import {create} from './../comment/api-comment.js'
 import {remove} from './../comment/api-comment.js'
 
+import {listScore} from './../score/api-score.js'
+import {submitScore} from './../score/api-score.js'
+
 import {Link} from 'react-router-dom'
 import {listadmin} from './../user/api-user.js'
 import {joke} from '../thirdparty/api-dadjokes.js'
@@ -75,10 +78,18 @@ export default function Home(){
   
   const classes = useStyles()
   const [comments, setComments] = useState([])
+  const [scores, setScores] = useState([])
   const [users, setUsers] = useState([])
+  const stringData = auth.isAuthenticated()
+  const username = ''
+
+  const abortController = new AbortController()
+  const signal = abortController.signal
 
   var commentText = ""
   var nameText = "default"
+  var result
+
   const [commentValues, setCommentValues] = useState({
     name: '',
     comment: '',
@@ -112,10 +123,38 @@ export default function Home(){
   }
   */
 
+
+  const clickScore = () =>{
+    const stringData = auth.isAuthenticated()
+    //console.log('score')
+    //console.log(stringData.user._id)
+    
+      const scoreData = {
+      user: stringData.user._id || undefined,
+      score: score || undefined
+    }
+    if (score > 0){
+    submitScore(scoreData).then(
+        (data) => {
+            if (data.error) {
+                console.log('error with score')
+            } 
+            else {
+                console.log('score submitted')
+            }
+        }
+    )
+    }
+    else{
+        alert("your score is 0, click play!")
+    }
+    
+  }
+
   const clickSubmit = () => {
-    commentValues.name = "testname"
+    const stringData = auth.isAuthenticated()  
     const commentData = {
-      name: commentValues.name || undefined,
+      user: stringData.user._id || undefined,
       comment: commentValues.comment || undefined
     }
 
@@ -134,7 +173,7 @@ export default function Home(){
     error: ''
   })
 
-  useEffect(() => {
+  useEffect(() => {    
     const abortController = new AbortController()
     const signal = abortController.signal
 
@@ -145,6 +184,14 @@ export default function Home(){
         console.log(data.error)
       } else {
         setComments(data)
+      }
+    })
+
+    listScore(signal).then((data) => {
+      if (data && data.error) {
+        console.log(data.error)
+      } else {
+        setScores(data)
       }
     })
 
@@ -193,10 +240,74 @@ export default function Home(){
           <CardContent>
           <div>
           <canvas style={{margin: 0}}></canvas>
-          <script src="public/Game.js"></script>
+          
+          
+            <script src="public/Game.js"></script>
+
+          </div>
+
+            <div>
+                <button
+                id="score-button"
+                variant="secondary"
+                size="lg"
+                style={{height: '50px', width : '100px', margin:6}}
+                onClick={clickScore}
+                className={classes.submit}>
+                submit score!
+                </button>
+            </div>
+
+            <div>
+
+            <Paper 
+            className={classes.root} 
+            elevation={4}
+            >
+                <Typography variant="h6" className={classes.title}>
+                        Scores:
+                </Typography>
+                <List dense
+                style={{maxHeight: 200, overflow: 'auto'}}>
+                {scores.slice().reverse().map((item, i) => {
+                    return <Link to={"/user/" + item.user} key={i}>
+                            <ListItem button>
+                                <ListItemAvatar>
+                                    <Avatar>
+                                        <Person/>
+                                    </Avatar>
+                                </ListItemAvatar>
+                            <ListItemText primary={
+                            "Score: " + item.score + 
+                            " User: " + item.user
+
+                            }
+                            secondary = {format(parseISO(item.created), 'yyyy/MM/dd kk:mm')}
+                            />
+                            {/*
+                            adds a button to delete, if you are an admin, could just be done through database
+                            <ListItemSecondaryAction>
+
+                                <IconButton
+                                onClick={clickDeleteComment(item._id)}
+                                >
+                                    <DeleteIcon/>
+                                </IconButton>
+                            </ListItemSecondaryAction>
+                            */}
+                            </ListItem>
+                        </Link>
+                        })
+                        }
+                    </List>
+            </Paper>
+
+
+
 
 
           </div>
+
             <Typography variant="body1" component="p">
               Have something to say?
 

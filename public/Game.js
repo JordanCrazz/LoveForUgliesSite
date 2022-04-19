@@ -145,7 +145,7 @@ function spawnAnimal(){
 		//initial x/y doesnt matter
 		0, 0,
 		//getting random boolean for ugly 2/5
-		Math.random() < 2,
+		Math.random() <= 0.5,
 		//random radius between min and 500
 		randomIntFromInterval(200, 500),
 		//random speed (direction is decided by negatives or positives)

@@ -7,13 +7,13 @@ const scoreSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     trim: false,
     required: 'User is required',
-    default: 'Anonymous'
   },
   score: {
     index: true,
-    type: String,
+    type: Number,
     trim: true,
-    required: 'Score is required'
+    required: 'Score is required',
+    default: 0
   },
   created: {
       type: Date,

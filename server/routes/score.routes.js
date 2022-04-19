@@ -4,8 +4,8 @@ import scoreCtrl from '../controllers/score.controller'
 const router = express.Router()
 
 router.route('/api/scores')
-  .get(scoreCtrl.list)
-  .post(scoreCtrl.create)
+  .get(scoreCtrl.listScore)
+  .post(scoreCtrl.submitScore)
 
 
 router.route('/api/scores/:scoreId')

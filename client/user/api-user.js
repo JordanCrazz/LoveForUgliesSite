@@ -44,7 +44,6 @@ const listadmin = async (params, credentials, signal) => {
   }
 }
 
-
 const read = async (params, credentials, signal) => {
   try {
     let response = await fetch('/api/users/' + params.userId, {

@@ -2,7 +2,7 @@ import Score from '../models/score.model'
 import extend from 'lodash/extend'
 import errorHandler from './../helpers/dbErrorHandler'
 
-const create = async (req, res) => {
+const submitScore = async (req, res) => {
   const score = new Score(req.body)
   try {
     await score.save()
@@ -16,7 +16,7 @@ const create = async (req, res) => {
   }
 }
 
-const list = async (req, res) => {
+const listScore = async (req, res) => {
   try {
     let scores = await Score.find().select('user score created')
     res.json(scores)
@@ -56,8 +56,8 @@ const scoreByID = async (req, res, next, id) => {
 }
 
 export default {
-  create,
-  list,
+  submitScore,
+  listScore,
   remove,
   scoreByID
 }

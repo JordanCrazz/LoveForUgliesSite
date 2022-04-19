@@ -4,10 +4,9 @@ import crypto from 'crypto'
 //schema to store user object, comment, and date created
 const commentSchema = new mongoose.Schema({
   user: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     trim: false,
     required: 'User is required',
-    default: 'Anonymous'
   },
   comment: {
     index: true,
