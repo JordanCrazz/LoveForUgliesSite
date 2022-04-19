@@ -45,11 +45,12 @@ import {Link} from 'react-router-dom'
 import {listadmin} from './../user/api-user.js'
 import {joke} from '../thirdparty/api-dadjokes.js'
 
+
 const useStyles = makeStyles(theme => ({
   card: {
-    maxWidth: 600,
+    maxWidth: 1000,
     margin: 'auto',
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(2),
     marginBottom: theme.spacing(5)
   },
   title: {
@@ -188,7 +189,14 @@ export default function Home(){
           </Typography>
           <CardMedia className={classes.media} image={swimImage} title="An expert swimmer"/>
           <Typography variant="body2" component="p" className={classes.credit} color="textSecondary">guess who selected function over form?</Typography>
+          
           <CardContent>
+          <div>
+          <canvas style={{margin: 0}}></canvas>
+          <script src="public/Game.js"></script>
+
+
+          </div>
             <Typography variant="body1" component="p">
               Have something to say?
 
@@ -217,8 +225,7 @@ export default function Home(){
                         size="lg"
                         style={{height: '50px', width : '100px', margin:6}}
                         onClick={clickSubmit}
-                        className={classes.submit}>Submit
-                        >
+                        className={classes.submit}>
                         submit!
                     </button>
 
