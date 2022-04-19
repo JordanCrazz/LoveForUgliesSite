@@ -66,6 +66,7 @@ UserSchema.methods = {
       return ''
     }
   },
+
   makeSalt: function() {
     return Math.round((new Date().valueOf() * Math.random())) + ''
   }
@@ -79,6 +80,7 @@ UserSchema.path('hashed_password').validate(function(v) {
     this.invalidate('password', 'Password is required')
   }
 }, null)
+
 
 const userModel = mongoose.model('User', UserSchema);
 userModel.createIndexes();

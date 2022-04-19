@@ -1,7 +1,7 @@
 import express from 'express'
 import commentCtrl from '../controllers/comment.controller'
 
-const router = express.router()
+const router = express.Router()
 
 router.route('/api/comments')
   .get(commentCtrl.list)
@@ -9,8 +9,8 @@ router.route('/api/comments')
 
 
 router.route('/api/comments/:commentId')
-	.delete(commentCtrl.remove)
+
+router.param('commentId', commentCtrl.commentByID)
 
 
-
-  export default router
+export default router

@@ -33,6 +33,7 @@ export default function DeleteUser(props) {
       }
     })
   }
+
   const handleRequestClose = () => {
     setOpen(false)
   }

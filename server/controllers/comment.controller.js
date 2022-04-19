@@ -1,4 +1,6 @@
 import Comment from '../models/comment.model'
+import extend from 'lodash/extend'
+import errorHandler from './../helpers/dbErrorHandler'
 
 const create = async (req, res) => {
   const comment = new Comment(req.body)
@@ -25,17 +27,7 @@ const list = async (req, res) => {
   }
 }
 
-const remove = async (req, res) => {
-  try {
-    let comment = req.body
-    let deletedComment = await comment.remove()
-    res.json(deletedComment)
-  } catch (err) {
-    return res.status(400).json({
-      error: errorHandler.getErrorMessage(err)
-    })
-  }
-}
+
 
 const commentByID = async (req, res, next, id) => {
   try {
@@ -56,6 +48,5 @@ const commentByID = async (req, res, next, id) => {
 export default {
   create,
   list,
-  remove,
   commentByID
 }

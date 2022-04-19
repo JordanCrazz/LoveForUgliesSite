@@ -2,18 +2,18 @@ import mongoose from 'mongoose'
 import crypto from 'crypto'
 
 //schema to store user object, comment, and date created
-const commentSchema = new mongoose.Schema({
+const scoreSchema = new mongoose.Schema({
   user: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     trim: false,
     required: 'User is required',
     default: 'Anonymous'
   },
-  comment: {
+  score: {
     index: true,
     type: String,
     trim: true,
-    required: 'Comment is required'
+    required: 'Score is required'
   },
   created: {
       type: Date,
@@ -21,10 +21,7 @@ const commentSchema = new mongoose.Schema({
     }
 })
 
-const commentModel = mongoose.model('comments', commentSchema)
+const scoreModel = mongoose.model('scores', scoreSchema)
 
-//don't know if requred for routes
-commentModel.createIndexes();
-export default commentModel
-
-
+scoreModel.createIndexes();
+export default scoreModel
